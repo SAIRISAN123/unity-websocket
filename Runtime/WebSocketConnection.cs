@@ -249,6 +249,7 @@ namespace MikeSchweitzer.WebSocket
                 Config.Url,
                 Config.Subprotocols,
                 Config.Headers,
+                Config.DisableSslValidation,
                 Config.MaxReceiveBytes);
             _webSocket.Opened += OnOpened;
             _webSocket.MessageReceived += OnMessageReceived;
@@ -315,6 +316,7 @@ namespace MikeSchweitzer.WebSocket
                 Url = src.Url,
                 Subprotocols = src.Subprotocols?.ToList(),
                 Headers = src.Headers?.ToDictionary(pair => pair.Key, pair => pair.Value),
+                DisableSslValidation = src.DisableSslValidation,
                 MaxReceiveBytes = src.MaxReceiveBytes,
                 MaxSendBytes = src.MaxSendBytes,
             };

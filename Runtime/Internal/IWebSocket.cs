@@ -65,6 +65,7 @@ namespace MikeSchweitzer.WebSocket.Internal
             string url,
             IEnumerable<string> subprotocols,
             Dictionary<string, string> headers = null,
+            bool disableSslValidation = false,
             int maxReceiveBytes = 4096)
         {
             var uri = new Uri(url);
@@ -73,7 +74,7 @@ namespace MikeSchweitzer.WebSocket.Internal
                 throw new ArgumentException($"Unsupported protocol: {protocol}");
             
             #if !UNITY_WEBGL || UNITY_EDITOR
-                return new DotNetWebSocket(uri, subprotocols, headers, maxReceiveBytes);
+                return new DotNetWebSocket(uri, subprotocols, headers, disableSslValidation, maxReceiveBytes);
             #else
                 return new WebGLWebSocket(uri, subprotocols, maxReceiveBytes);
             #endif
