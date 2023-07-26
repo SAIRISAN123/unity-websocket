@@ -95,19 +95,18 @@ namespace MikeSchweitzer.WebSocket.Internal
         {
             _socket = new SharpWebSocket(_uri.AbsoluteUri, _subprotocols);
 
+            if (_socket.IsSecure)
+                _socket.SslConfiguration.EnabledSslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12;
+            
             if (_disableSslValidation)
-            {
                 _socket.SslConfiguration.ServerCertificateValidationCallback = (_, _, _, _) => true;
-                _socket.SslConfiguration.ClientCertificateSelectionCallback = (_, _, _, _, _) => null;
-                _socket.SslConfiguration.EnabledSslProtocols = SslProtocols.None;
-            }
 
             _socket.OnOpen += OnOpen;
             _socket.OnMessage += OnMessage;
             _socket.OnError += OnError;
             _socket.OnClose += OnClose;
 
-            _socket.ConnectAsync();
+            _socket.Connect();
             return Task.CompletedTask;
         }
         
